@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acute Hemodynamic Assessment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/></svg>">
+</head>
+
+<body>
+    <div class="app-background"></div>
+    <div class="container">
+        <header>
+            <h1>Acute Hemodynamic Assessment</h1>
+            <p>Advanced Calculator for Critical Care</p>
+        </header>
+
+        <main class="calculator-grid">
+            <section class="input-section glass-panel">
+                <h2>Patient Parameters</h2>
+
+                <div class="input-group">
+                    <h3>Patient Data</h3>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <label for="height">Height</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="height" placeholder="170" step="1">
+                                <span class="unit">cm</span>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="weight">Weight</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="weight" placeholder="70" step="0.1">
+                                <span class="unit">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <h3>Vitals & BP</h3>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <label for="sbp">Systolic BP (SBP)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="sbp" placeholder="120">
+                                <span class="unit">mmHg</span>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="dbp">Diastolic BP (DBP)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="dbp" placeholder="80">
+                                <span class="unit">mmHg</span>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="hr">Heart Rate (HR)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="hr" placeholder="80">
+                                <span class="unit">bpm</span>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="erap">eRAP</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="erap" placeholder="8" title="Estimated Right Atrial Pressure">
+                                <span class="unit">mmHg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <h3>LVOT Measurements</h3>
+                    <div class="input-row">
+                        <div class="input-field">
+                            <label for="lvot_d">LVOT Diameter</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="lvot_d" placeholder="2.0" step="0.1">
+                                <span class="unit">cm</span>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="lvot_vti">LVOT VTI</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="lvot_vti" placeholder="20" step="0.1">
+                                <span class="unit">cm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button id="calculate-btn" class="btn-primary">Calculate</button>
+                    <button id="reset-btn" class="btn-secondary">Reset</button>
+                </div>
+            </section>
+
+            <section class="results-section">
+                <!-- Calculated Inputs (Intermediate) -->
+                <div class="result-card glass-panel small-card">
+                    <div class="result-header">
+                        <span class="label">LVOT Area</span>
+                    </div>
+                    <div class="result-value" id="res-lvot-area">--</div>
+                    <div class="result-unit">cm²</div>
+                </div>
+                <div class="result-card glass-panel small-card">
+                    <div class="result-header">
+                        <span class="label">BSA (DuBois)</span>
+                    </div>
+                    <div class="result-value" id="res-bsa">--</div>
+                    <div class="result-unit">m²</div>
+                </div>
+                <div class="result-card glass-panel small-card">
+                    <div class="result-header">
+                        <span class="label">MAP</span>
+                    </div>
+                    <div class="result-value" id="res-map">--</div>
+                    <div class="result-unit">mmHg</div>
+                </div>
+
+                <!-- Primary Hemodynamics -->
+                <div class="result-card glass-panel highlight-card">
+                    <div class="result-header">
+                        <span class="label">Stroke Volume (SV)</span>
+                    </div>
+                    <div class="result-value-large" id="res-sv">--</div>
+                    <div class="result-unit">mL</div>
+                    <div class="range-info">Normal: 60 - 100</div>
+                </div>
+
+                <div class="result-card glass-panel highlight-card">
+                    <div class="result-header">
+                        <span class="label">Cardiac Output (CO)</span>
+                    </div>
+                    <div class="result-value-large" id="res-co">--</div>
+                    <div class="result-unit">L/min</div>
+                    <div class="range-info">Normal: 4.0 - 8.0</div>
+                </div>
+
+                <div class="result-card glass-panel highlight-card">
+                    <div class="result-header">
+                        <span class="label">Cardiac Index (CI)</span>
+                    </div>
+                    <div class="result-value-large" id="res-ci">--</div>
+                    <div class="result-unit">L/min/m²</div>
+                    <div class="range-info">Normal: 2.5 - 4.0</div>
+                </div>
+
+                <!-- Derived Resistance & Indices -->
+                <div class="result-card glass-panel">
+                    <div class="result-header">
+                        <span class="label">SVI</span>
+                    </div>
+                    <div class="result-value" id="res-svi">--</div>
+                    <div class="result-unit">mL/m²</div>
+                    <div class="range-info">Normal: 33 - 47</div>
+                </div>
+
+                <div class="result-card glass-panel">
+                    <div class="result-header">
+                        <span class="label">SVR</span>
+                    </div>
+                    <div class="result-value" id="res-svr">--</div>
+                    <div class="result-unit">dyn·s/cm⁵</div>
+                    <div class="range-info">Normal: 800 - 1200</div>
+                </div>
+
+                <div class="result-card glass-panel">
+                    <div class="result-header">
+                        <span class="label">SVRI</span>
+                    </div>
+                    <div class="result-value" id="res-svri">--</div>
+                    <div class="result-unit">dyn·s/cm⁵·m²</div>
+                    <div class="range-info">Normal: 1900 - 2400</div>
+                </div>
+
+
+            </section>
+        </main>
+        <footer>
+            <div class="disclaimer glass-panel">
+                <strong>Disclaimer:</strong> This tool is for educational/reference purposes only. Always verify with
+                clinical judgment.
+            </div>
+        </footer>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
