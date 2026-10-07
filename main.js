@@ -12,6 +12,11 @@ const Formulas = {
         return (sbp + (2 * dbp)) / 3;
     },
 
+    // Modified Shock Index
+    msi: (hr, map) => {
+        if (hr === null || map === null || map === 0) return null;
+        return hr / map;
+    },
     // LVOT Area (cm^2)
     lvotArea: (lvotD) => {
         if (!lvotD) return null;
@@ -86,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lvotArea: document.getElementById('res-lvot-area'),
         bsa: document.getElementById('res-bsa'),
         map: document.getElementById('res-map'),
+        msi: document.getElementById('res-msi'),
         sv: document.getElementById('res-sv'),
         co: document.getElementById('res-co'),
         ci: document.getElementById('res-ci'),
@@ -104,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 2. Base Calculations
         const bsa = Formulas.bsa(val.height, val.weight);
         const map = Formulas.map(val.sbp, val.dbp);
+        const msi = Formulas.msi(val.hr, map);
         const lvotArea = Formulas.lvotArea(val.lvot_d);
 
         // 3. Dependent Calculations
@@ -119,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 5. Update UI
         updateDisplay(displays.bsa, bsa, 2);
         updateDisplay(displays.map, map, 0);
+        updateDisplay(displays.msi, msi, 2, 0.7, 1.3);
         updateDisplay(displays.lvotArea, lvotArea, 2);
 
         // Ranges:
